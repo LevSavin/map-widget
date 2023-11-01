@@ -8,15 +8,9 @@
 
     <body>
         <div id="ecom-map-widget"></div>
-        <div v-scope="Counter({ initialCount: 1 })"></div>
         <script defer type="module">
             import { initEcomWidget } from "./load-map-widget.js"
-            initEcomWidget();
+            initEcomWidget("ecom-map-widget");
         </script>
-
-        <template id="counter-template">
-            My count is {{ count }}
-            <button @click="inc">++</button>
-        </template>
     </body>
 </html>

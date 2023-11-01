@@ -1,17 +1,33 @@
 import { createApp } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
 
-function Counter(props) {
+const MapComponent = (props) => {
   return {
-    $template: '#counter-template',
+    $template: '#ecom-map-template',
     count: props.initialCount,
     inc() {
-      this.count++
+      this.count++;
     }
   }
 }
 
-export const initEcomWidget = () => {
+export const initEcomWidget = (elementId) => {
+    addVueTemplate(elementId);
+    addContainer(elementId);
     createApp({
-      Counter
+        MapComponent
     }).mount()
+}
+
+const addVueTemplate = (elementId) => {
+    const conatainer = document.querySelector(`#${elementId}`);
+    const child = document.createElement('div');
+    child.innerHTML = "<template id='ecom-map-template'>My count is {{ count }}<button @click='inc'>++</button></template>";
+    conatainer.appendChild(child);
+}
+
+const addContainer = (elementId) => {
+    const conatainer = document.querySelector(`#${elementId}`);
+    const child = document.createElement('div');
+    child.innerHTML = "<div v-scope='MapComponent({ initialCount: 1 })'></div>";
+    conatainer.appendChild(child);
 }
