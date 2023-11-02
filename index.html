@@ -7,10 +7,17 @@
     </head>
 
     <body>
-        <div id="ecom-map-widget"></div>
-        <script defer type="module">
-            import { initEcomWidget } from "./load-map-widget.js"
-            initEcomWidget("ecom-map-widget");
+        <div id="hecny-ecom-widget"></div>
+        <script defer>
+            const elementId = "hecny-ecom-widget";
+            const baseUrl = "https://preprod.yolka.io";
+            const script = document.createElement("script");
+            script.setAttribute("src", `${baseUrl}/js/widgets/map-widget/map-widget.js`),
+            script.setAttribute("defer", true),
+            script.setAttribute("elementId", elementId),
+            script.setAttribute("baseUrl", baseUrl),
+            script.id = "hecnyEcomScript",
+            document.body.insertAdjacentElement("beforeEnd", script)
         </script>
     </body>
 </html>

@@ -1,33 +1,57 @@
-import { createApp } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
-
-const MapComponent = (props) => {
-  return {
-    $template: '#ecom-map-template',
-    count: props.initialCount,
-    inc() {
-      this.count++;
-    }
+const state = {
+    elementId: "",
+    baseUrl: "",
   }
-}
-
-export const initEcomWidget = (elementId) => {
-    addVueTemplate(elementId);
-    addContainer(elementId);
-    createApp({
+  
+  function init() {
+      const script = document.getElementById("hecnyEcomScript");
+      state.elementId = script.getAttribute("elementId");
+      state.baseUrl = script.getAttribute("baseUrl");
+      loadSrcScript();
+  }
+  init();
+  
+  function loadSrcScript() {
+      const script = document.createElement("script");
+      script.setAttribute("src", `${state.baseUrl}/js/widgets/map-widget/petite-vue.iife.js`),
+      script.setAttribute("defer", true),
+      script.id = "petiteVueScript",
+      document.body.insertAdjacentElement("beforeEnd", script),
+          document.getElementById("petiteVueScript").onload = function() {
+          initWidget();
+      }
+  }
+  
+  function initWidget() {
+      addContainer();
+    addVueTemplate();
+    PetiteVue.createApp({
         MapComponent
     }).mount()
-}
-
-const addVueTemplate = (elementId) => {
-    const conatainer = document.querySelector(`#${elementId}`);
-    const child = document.createElement('div');
-    child.innerHTML = "<template id='ecom-map-template'>My count is {{ count }}<button @click='inc'>++</button></template>";
-    conatainer.appendChild(child);
-}
-
-const addContainer = (elementId) => {
-    const conatainer = document.querySelector(`#${elementId}`);
-    const child = document.createElement('div');
-    child.innerHTML = "<div v-scope='MapComponent({ initialCount: 1 })'></div>";
-    conatainer.appendChild(child);
-}
+  }
+  
+  function addContainer() {
+      const conatainer = document.querySelector(`#${state.elementId}`);
+      const child = document.createElement('div');
+      child.innerHTML = "<div v-scope='MapComponent({ initialCount: 1 })'></div>";
+      conatainer.appendChild(child);
+  }
+  
+  function addVueTemplate() {
+      const conatainer = document.querySelector(`#${state.elementId}`);
+      const child = document.createElement('div');
+      child.innerHTML = "<template id='ecom-map-template'>My count is {{ count }}<button @click='inc'>++</button></template>";
+      conatainer.appendChild(child);
+  }
+  
+  function MapComponent(props) {
+      return {
+          $template: '#ecom-map-template',
+          count: props.initialCount,
+          inc() {
+              this.count++;
+          }
+      }
+  }
+  
+  const initCoords = () => ([55.757724, 37.571490]);
