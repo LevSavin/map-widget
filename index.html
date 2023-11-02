@@ -7,10 +7,10 @@
     </head>
 
     <body>
-        <div id="hecny-ecom-widget"></div>
+        <div id="hecny-ecom-widget" style='width: 760px; height: 500px'></div>
         <script defer>
             const elementId = "hecny-ecom-widget";
-            const baseUrl = "https://preprod.yolka.io";
+            const baseUrl = "http://ecom.local";
             const script = document.createElement("script");
             script.setAttribute("src", `${baseUrl}/js/widgets/map-widget/map-widget.js`),
             script.setAttribute("defer", true),
@@ -18,6 +18,10 @@
             script.setAttribute("baseUrl", baseUrl),
             script.id = "hecnyEcomScript",
             document.body.insertAdjacentElement("beforeEnd", script)
+            document.addEventListener("hecny-pp", function(event) {
+                console.log("ПВЗ", event.target.id);
+                console.log("адрес", event.target.dataset.address);
+            });
         </script>
     </body>
 </html>
