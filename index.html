@@ -9,19 +9,34 @@
     <body>
         <div id="hecny-ecom-widget" style='width: 760px; height: 500px'></div>
         <script defer>
-            const elementId = "hecny-ecom-widget";
-            const baseUrl = "http://ecom.local";
-            const script = document.createElement("script");
-            script.setAttribute("src", `${baseUrl}/js/widgets/map-widget/map-widget.js`),
-            script.setAttribute("defer", true),
-            script.setAttribute("elementId", elementId),
-            script.setAttribute("baseUrl", baseUrl),
-            script.id = "hecnyEcomScript",
-            document.body.insertAdjacentElement("beforeEnd", script)
-            document.addEventListener("hecny-pp", function(event) {
+            //"https://preprod.yolka.io"
+            const settings = {
+                partner: "hly",
+                elementId: "hecny-ecom-widget",
+                baseUrl: "http://ecom.local",
+            }
+
+            const handlePointChoose = (event) => {
                 console.log("ПВЗ", event.target.id);
                 console.log("адрес", event.target.dataset.address);
-            });
+            }
+            function initHecnyLoading({partner, elementId, baseUrl}) {
+                if (!Object.prototype.hasOwnProperty.call(window, "HecnyYaMap")) {
+                    const script = document.createElement("script");
+                    script.setAttribute("src", `${baseUrl}/js/widgets/map-widget/map-widget.js`),
+                    script.setAttribute("defer", true),
+                    script.setAttribute("elementId", elementId),
+                    script.setAttribute("partner", partner),
+                    script.setAttribute("baseUrl", baseUrl),
+                    script.id = "hecnyMapWidget",
+                    document.body.insertAdjacentElement("beforeEnd", script)
+                    document.addEventListener("hecny-pp", handlePointChoose);
+                } else {
+                    window.HecnyYaMap.addContainer();
+                    window.HecnyYaMap.mountMap();
+                }
+            }
+            initHecnyLoading(settings);
         </script>
     </body>
 </html>
